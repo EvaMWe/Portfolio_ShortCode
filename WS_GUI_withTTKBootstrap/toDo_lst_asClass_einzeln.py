@@ -3,6 +3,12 @@ from tkinter import ttk
 
 import ttkbootstrap as ttkb
 
+# TODO
+# pass a function when pressing the add-button: a new TaskCombo Should be opened
+# bind this into a list, and do the same thing with all the other TaskCombi INstances created on pressing add button
+# implement the deletion of a TaskCombo on pressing the del button, delete it from list; indices?
+# condition: on empty Task Combo is the minimum content in the To Do list (widget cannot be empty)
+
 
 class SetAddButton:
     ''' class to create the add button, including a function that will preform deleting the buttong'''
@@ -41,10 +47,10 @@ class TaskField:
         self.entry_task = ttkb.Entry(self.frame, width=50)
         self.entry_task.grid(column=1, row=0, padx=20)
         self.entry_task.bind("<Return>", lambda event=None: self.check_entry_text(self))
+        self.entry_task.bind_all("<ButtonRelease-1>", lambda event: self.check_entry_text(event))
 
     def configure(self, cur_state ="active"):
         self.entry_task.configure(state = cur_state)
-        #self.entry_task.bind("<Return>", lambda event=None: self.check_entry_text(self)
 
     #check if something is written on event: Return
     def check_entry_text(self, event=None):
@@ -53,9 +59,6 @@ class TaskField:
         else:
             if self.add_b != None:
                 self.add_b.destroy
-
-    def checker(self):
-        self.entry_task.bind("<Return>", lambda event: self.check_entry_text(event))
 
 
 class CheckButton:
