@@ -1,0 +1,144 @@
+# # # # # # Personal settings # # # #
+
+# include even if ignored
+!my_super_file.*
+
+# ignored
+.venv*
+.idea*
+.venv/
+.idea/
+*.log
+scribble*
+*settings.json
+__pycache__/
+test.*
+
+# # # # Pregenerated ignore things # # # # # # 
+
+# Compiled source code (Java, Python, C++, etc.)
+*.class
+*.py[cod]
+*.pyo
+*.o
+*.out
+*.so
+*.exe
+*.dll
+*.a
+*.dylib
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+env/
+ENV/
+venv/
+env.bak/
+ENV.bak/
+venv.bak/
+
+# Distribution / Packaging
+*.egg
+*.egg-info/
+*.dist-info/
+dist/
+build/
+wheels/
+*.whl
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite3
+*.db
+
+# Operating system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE/Editor specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.user
+
+# Test results
+coverage/
+*.cover
+*.coverage
+*.gcda
+*.gcno
+*.gcov
+*.lst
+*.mo
+*.pot
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.old
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Dependency directories
+node_modules/
+bower_components/
+package-lock.json
+yarn.lock
+Pipfile.lock
+poetry.lock
+
+# Environment files
+.env
+.env.*
+.credentials
+
+# Build artifacts
+*.ipa
+*.apk
+*.ap_
+*.dSYM/
+*.dSYM.zip
+*.ipa
+*.app
+*.ipa
+*.xcarchive
+
+# Binary files
+*.bin
+*.exe
+*.dll
+
+# Generated documentation
+docs/_build/
+
+# Static website
+public/
+public_html/
+
+# Data files
+*.csv
+*.tsv
+*.dat
+*.data
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
