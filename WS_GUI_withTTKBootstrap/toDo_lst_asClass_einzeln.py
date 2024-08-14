@@ -4,14 +4,13 @@ from tkinter import ttk
 import ttkbootstrap as ttkb
 
 # TODO
-# pass a function when pressing the add-button: a new TaskCombo Should be opened
 # bind this into a list, and do the same thing with all the other TaskCombi INstances created on pressing add button
 # implement the deletion of a TaskCombo on pressing the del button, delete it from list; indices?
 # condition: on empty Task Combo is the minimum content in the To Do list (widget cannot be empty)
 
 
 class SetAddButton:
-    ''' class to create the add button, including a function that will preform deleting the buttong'''
+    ''' class to create the add button, including a function that will preform deleting the button'''
     def __init__(self,frame):
         self.frame = frame
         self.add_button = ttkb.Button(self.frame, bootstyle="success", text="add task")
@@ -22,9 +21,9 @@ class SetAddButton:
     def add_button_destroy(self):
         self.add_button.grid_forget()
 
-    def add_button_event(self):
+    def add_button_event(self, event):
         '''create a new task'''
-        pass
+        main_body.creat_taskCombo()
 
 
 
@@ -55,10 +54,13 @@ class TaskField:
     #check if something is written on event: Return
     def check_entry_text(self, event=None):
         if self.entry_task.get():
+            self.written = True
             self.add_b = SetAddButton(self.frame)
         else:
+            self.written = False
             if self.add_b != None:
                 self.add_b.destroy
+
 
 
 class CheckButton:
@@ -84,37 +86,28 @@ class CheckButton:
             self.del_b.del_button_event()  #delete delete button
 
 
-
-
-class TaskCombo:
+class TaskCombo: #this is the widget containing all the tasks;
     def __init__(self, frame):
         self.task_frame = ttk.Frame(frame, width = 450, height = 50)  #masterwidget
         self.task_frame.pack(fill=tk.BOTH, expand=True)
         self.task_field = TaskField(self.task_frame)
         self.check_box = CheckButton(self.task_frame, self.task_field)  #textfeld
-
-
-'''class TaskComboDel(TaskCombo):
-    def __init__(self, frame):
-        super().__init__(frame)
-
-
-
-        self.add_b = None
-        self.del_b = None
-        self.written = False'''
+        self.add_button = None
+        self.del_button = None
 
 
 class main_body:
+
+    #classattributes, always the same
     root = ttkb.Window(themename="superhero")
     root.title("My to Dos")
-    root.geometry("500x350")
+    root.geometry("500x800")
     #create a main frame
-    main_frame = ttkb.Frame(root)
-    main_frame.pack(padx=10, pady=10)
+        # self.main_frame = ttkb.Frame(self.root)
+        # self.main_frame.pack(padx=10, pady=10)
 
-    #create a top frame
-    top_frame = ttkb.Frame(main_frame)
+    #create a top frame onto the root
+    top_frame = ttkb.Frame(root)
     top_frame.pack(padx=10, pady=10)
 
     #create a label in the top frame
@@ -122,15 +115,24 @@ class main_body:
     label.pack(pady=50, padx=30)  # 50 von oben/unten, 30 von rechts/links
 
     #create a middle frame
-    middle_frame = ttkb.Frame(main_frame)
+    middle_frame = ttkb.Frame(root)
     middle_frame.pack(padx=3, pady=3)
 
-    task_list = []
-    task_list.append(TaskCombo(main_frame))
+    test = TaskCombo(middle_frame)
+
+    # task_list = []
+    # task_frame_list = []
+    #
+    # task_frame_list.append(ttkb.Frame(middle_frame))
+    # task_frame_list.append(ttkb.Frame(middle_frame))
+    #
+    # for i in range(len(task_frame_list)):
+    #     task_frame_list[i].pack(padx=10, pady=10)
+    #     task_list.append(TaskCombo(task_frame_list[i]))
 
     root.mainloop()
 
 
 if __name__ == "__main__":
-    TaskCombo(main_body)
+    main_body()
 
