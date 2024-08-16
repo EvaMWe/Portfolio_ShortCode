@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-import sqlite3
 
 import ttkbootstrap as ttkb
 
@@ -8,24 +7,6 @@ import ttkbootstrap as ttkb
 # TODO
 # add a new TaskCombo on clicking on the add button
 # delete the TaskCombo on clicking on the del button
-
-class conn_database:
-    def __init__(self):
-
-        self.db_name = "datastore_todo"
-        self.conn = sqlite3.connect(self.db_name)
-        self.c = self.conn.cursor()  # Der Cursor wird erstellt
-
-        #create the task table if not yet existing:
-    def create_task_table(self):
-        sql = """CREATE TABLE IF NOT EXISTS tasks (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    task_name TEXT NOT NULL,
-                    task_status TEXT NOT NULL);"""
-        self.c.execute(sql)
-        self.conn.commit()
-        self.conn.close()
-
 
 
 class TaskCombo:
@@ -129,7 +110,5 @@ class MainBody:
 
 if __name__ == "__main__":
     root = ttkb.Window(themename="superhero")
-    db = conn_database()
-    db.create_task_table()
     toDo_app = MainBody(root)
     root.mainloop()
