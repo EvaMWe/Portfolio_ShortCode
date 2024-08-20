@@ -5,20 +5,25 @@ import ttkbootstrap as ttkb
 
 
 # TODO
-# add a new TaskCombo on clicking on the add button
-# delete the TaskCombo on clicking on the del button
+# initialize the buttons from the beginning on
+# put delete and add button next to each other
+# default status of buttons: disabled or invisible (Is that passible?)
+
+# give a maximum number of characters and fix the size (should be visualized more static)
+# check all the functions
+# check always if TaskCombo is the last one that is deleted or create automatically a new one, if side is empty
 
 
 class TaskCombo:
     def __init__(self, master_frame):
         self.task_frame = ttk.Frame(master_frame, width=450, height=50)  #masterwidget
-        self.task_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=10)
+        self.task_frame.pack(fill=tk.BOTH, expand=True, padx=4, pady=10)
 
         #text field
         self.task_field = ttkb.Entry(self.task_frame, width=50)
-        self.task_field.grid(column=1, row=0, padx=20)
+        self.task_field.grid(column=1, row=0, padx=4)
         self.task_field.bind("<Return>", lambda event=None: self.check_entry_text(event))
-        self.task_field.bind_all("<ButtonRelease-1>", lambda event=None: self.check_entry_text(event))
+       # self.task_field.bind("<ButtonRelease-1>", lambda event=None: self.check_entry_text(event) if event.widget == self.task_field else None)
         self.text_written = False
         #check button
         #self.checkbutton_state = "disabled"
@@ -26,52 +31,52 @@ class TaskCombo:
         self.checkbutton = ttkb.Checkbutton(self.task_frame, variable=self.check_var, state="disabled")
         self.checkbutton.grid(column=0, row=0, sticky="w")
         self.checkbutton.bind("<Button-1>", lambda event: self.checkbox_event(event))
-        self.add_button = None
-        self.del_button = None
+        #add_button
+        self.add_button = ttkb.Button(self.task_frame, bootstyle="success", text="add", width=4, state="disabled")
+        self.add_button.grid(column=3, row=0, padx=4, pady=5)
+        self.add_button.bind("<ButtonRelease-1>", self.add_button_event)
+        #del_button
+        self.del_button = ttkb.Button(self.task_frame, bootstyle="danger", text="x", width=4, state="disabled")
+        self.del_button.grid(column=4, row=0, padx=4, pady=5)
+        self.del_button.bind("<ButtonRelease-1>", self.del_button_event)
+
+
 
     # Events
     def check_entry_text(self, event=None):
-        self.task_field.unbind_all("<ButtonRelease-1>")
         if self.task_field.get():
             print("irgendwas")
-            self.add_button = ttkb.Button(self.task_frame, bootstyle="success", text="add task")
-            self.add_button.grid(column=3, row=1, padx=20, pady=5)
-            self.add_button.focus_set()
-            self.add_button.bind("<ButtonRelease-1>", self.add_button_event)
-            self.text_written = True
             self.checkbutton.config(state="enabled")
+            self.add_button.focus_set()
+            self.add_button.config(state="active")
         else:
-            self.text_written = False
             self.checkbutton.config(state="disabled")
-            #remove the del button if one exists
-            if self.del_button is not None:
-                self.del_button.grid_forget()
-            print("etwas anderes")
+        self.task_field.unbind_all("<ButtonRelease-1>")
             # if self.add_b != None:
             #     self.add_b.destroy
 
     def add_button_event(self, event=None):
-        toDo_app.create_new_combo()
-        self.add_button.grid_forget()
+        print("status of button:", self.add_button.cget("state"))
+        if self.add_button.cget("state") == "active":
+            toDo_app.create_new_combo()
+
+
+    def del_button_event(self, event=None):
+        print("status of button:", self.del_button.cget("state"))
+        if self.del_button.cget("state") == "active":
+            self.task_frame.destroy()
+            toDo_app.del_combo(self)
 
     def checkbox_event(self, event):
         print("Wert des Check_bottons davor: ", self.check_var.get())
-        if self.check_var.get() == False and self.text_written:
+        if self.check_var.get() == False and self.task_field.get():
             #     #self.check_var.set(True)
             self.task_field.configure(state="disable")
-            self.checkbutton.configure(state="normal")
-            #create a delete button:
-            self.del_button = ttkb.Button(self.task_frame, bootstyle="danger", text="delete")
-            self.del_button.grid(column=3, row=0, padx=20, pady=5)
-            self.del_button.focus_set()
-            self.del_button.bind("<ButtonRelease-1>", self.del_button_event)
-
+            self.del_button.config(state="active")
         elif self.check_var.get() == True:
             self.task_field.configure(state="normal")
             print("2.condition entered:", self.check_var.get(), self.task_field.get())
 
-    def del_button_event(self, event=None):
-        self.task_frame.destroy()
 
 
 
@@ -102,8 +107,13 @@ class MainBody:
         self.task_combo_list.append(TaskCombo(self.middle_frame))
         print(self.task_combo_list)
 
-    # task_list = []
-    # task_list.append(TaskCombo(main_frame))
+    def del_combo(self, currTask):
+        print(self.task_combo_list)
+        print("current Task: ", currTask)
+        self.task_combo_list.remove(currTask)
+        if len(self.task_combo_list) == 0:
+            self.task_combo_list.append(TaskCombo(self.middle_frame))
+
 
 
 
